@@ -1,0 +1,228 @@
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+import java.util.Scanner;
+
+public class StudentSystem {
+	public static void main(String args[]) {
+		Scanner scan = new Scanner(System.in);
+		System.out.println("Welcome to My Student Database Management System\nPlease Enter the amount of students.");
+		Student [] classroom = new Student [scan.nextInt()];
+		System.out.println("Please Enter "+ classroom.length +" Students Names and Years");
+		for(int i=0; i<classroom.length; i++) {
+			classroom[i] = new Student(scan.next(),scan.nextInt());
+			classroom[i].generateStudentID();
+		}
+		System.out.println("================================================");
+		System.out.println("\n");
+		System.out.println("Please choose a student");
+		for(int j=0; j<classroom.length; j++) {
+			System.out.println(j + ". Student ID: " + classroom[j].getStudentID() + " Student Name: " + classroom[j].getStudentName());
+		}
+		int n = scan.nextInt();
+		System.out.println("Selected Student is: " + classroom[n].getStudentName());
+		System.out.println("================================================");
+		
+		
+		char option = '\0';
+		
+		
+		
+		do {
+			System.out.println("Please choose a module to enroll in. Each module costs $600.");
+			System.out.println("A. History 101");
+			System.out.println("B. Mathematics 101");
+			System.out.println("C. English 101");
+			System.out.println("D. Chemistry 101");
+			System.out.println("E. Computer Science 101");
+			System.out.println("F. Escape");
+			
+			System.out.println("================================================");
+			
+			option = scan.next().charAt(0);
+			
+			switch(option) {
+			
+			case 'A':
+				System.out.println("================================================");
+				System.out.println("A. History 101");
+				classroom[n].enroll("History 101");
+				System.out.println("================================================");
+				System.out.println("\n");
+				break;
+				
+			case 'B':
+				System.out.println("================================================");
+				System.out.println("B. Mathematics 101");
+				classroom[n].enroll("Mathematics 101");
+				System.out.println("================================================");
+				System.out.println("\n");
+				break;
+				
+			case 'C':
+				System.out.println("================================================");
+				System.out.println("C. English 101");
+				classroom[n].enroll("English 101");
+				System.out.println("================================================");
+				System.out.println("\n");
+				break;
+				
+			case 'D':
+				System.out.println("================================================");
+				System.out.println("D. Chemistry 101");
+				classroom[n].enroll("Chemistry 101");
+				System.out.println("================================================");
+				System.out.println("\n");
+				break;
+				
+			case 'E':
+				System.out.println("================================================");
+				System.out.println("E. Computer Science 101");
+				classroom[n].enroll("Computer Science 101");
+				System.out.println("================================================");
+				System.out.println("\n");
+				break;
+				
+			case 'F':
+				System.out.println("================================================");
+				System.out.println("Exit");
+				System.out.println("================================================");
+				System.out.println("\n");
+				break;
+				
+			default:
+				System.out.println("Invalid Option. Please Try Again");
+			}
+		}while(option != 'F');
+			System.out.println("Thank you for using this service!!!");
+		
+		
+		System.out.println("================================================");
+		System.out.println("Please choose an Option");
+		System.out.println("A. Pay Tuition");
+		System.out.println("B. View Courses");
+		System.out.println("C. Exit");
+		
+		char option2 = '\0';
+		int toPay = 0;
+		
+		do {
+			option2 = scan.next().charAt(0);
+			switch(option2) {
+			
+			case 'A':
+				System.out.println("================================================");
+				System.out.println("To Pay: $" + classroom[n].getBalance());
+				System.out.println("Please Enter Amount");
+				classroom[n].pay(scan.nextInt());
+				System.out.println("Balance Remaining: $" + classroom[n].getBalance());
+				System.out.println("================================================");
+				break;
+				
+			case 'B':
+				System.out.println("================================================");
+				System.out.println(classroom[n].getStudentName() + "'s courses: \n" + classroom[n].getCourses());
+				System.out.println("================================================");
+				break;
+				
+			case 'C':
+				System.out.println("================================================");
+				System.out.println("Exit");
+				System.out.println("================================================");
+				
+			default:
+				System.out.println("Invalid Option. Please Try Again");
+			}
+		}while(option2 != 'C');
+		
+	}
+}
+
+class Student{
+	private String studentName;
+	private int studentYear;
+	private String studentID;
+	private ArrayList<String> courses = new ArrayList<String>();
+	private int balance;
+	
+	public Student() {
+		studentName = "";
+		studentYear = 0;
+		studentID = "";
+		balance = 0;
+	}
+	
+	public Student(String studentName, int studentYear) {
+		this.studentName = studentName;
+		this.studentYear = studentYear;
+	}
+	
+	/////////////////////////////////////////
+	//////////////Getter Methods/////////////
+	/////////////////////////////////////////
+	
+	public String getStudentName() {
+		return studentName;
+	}
+	
+	public int getStudentYear() {
+		return studentYear;
+	}
+	
+	public String getStudentID() {
+		return studentID;
+	}
+	
+	public String getCourses() {
+		String courseList = "";
+		for(int i=0; i<courses.size(); i++) {
+			courseList += courses.get(i) + "\n";
+		}
+		return courseList;
+	}
+	
+	public int getBalance() {
+		return balance;
+	}
+	
+	/////////////////////////////////////////
+	//////////////Setter Methods/////////////
+	/////////////////////////////////////////
+	
+	public void setStudentName(String name) {
+		studentName = name;
+	}
+	
+	public void setStudentYear(int year) {
+		studentYear = year;
+	}
+	public void setStudentID(int ID) {
+		String tempID = Integer.toString(studentYear);
+		tempID += Integer.toString(ID);
+		studentID = tempID;
+	}
+	
+	public void generateStudentID() {
+		String tempID = Integer.toString(studentYear);
+		Random rand = new Random();
+		int n = rand.nextInt(9999);
+		n += 1000;
+		tempID += Integer.toString(n);
+		studentID = tempID;
+	}
+	
+	public void updateBalance() {
+		balance+= 600;
+	}
+	/////////////////////////////////////////
+	//////////////Enroll Method//////////////
+	/////////////////////////////////////////
+	public void enroll(String s) {
+		courses.add(s);
+		balance += 600;
+	}
+	
+	public void pay(int amount) {
+		balance -= amount;
+	}
+}
